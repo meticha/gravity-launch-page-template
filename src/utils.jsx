@@ -145,12 +145,16 @@ export function parsePathToVertices(path, sampleLength = 15) {
 export function calculatePosition(value, containerSize, elementSize) {
   if (typeof value === "string" && value.endsWith("%")) {
     const percentage = parseFloat(value) / 100;
-    return containerSize * percentage;
+    // Add padding to prevent objects from being placed too close to edges
+    const padding = elementSize / 2;
+    const availableSize = containerSize - padding * 2;
+    return padding + availableSize * percentage;
   }
   return typeof value === "number"
     ? value
-    : elementSize - containerSize + elementSize / 2;
+    : Math.min(containerSize - elementSize / 2, Math.max(elementSize / 2, elementSize));
 }
+
 
 export const generateRandomElement = () => {
   const randomElement =

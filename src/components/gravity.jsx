@@ -218,7 +218,7 @@ const Gravity = forwardRef(
       engine.current.gravity.x = gravity.x;
       // engine.current.gravity.y = gravity.y * 0.001 * 9.81; // Scale gravity to be more realistic
 
-      engine.current.gravity.y = gravity.y;
+      engine.current.gravity.y = gravity.y; 
 
       render.current = Render.create({
         element: canvas.current,

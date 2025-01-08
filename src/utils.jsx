@@ -102,7 +102,7 @@ export const generateUniqueElements = () => {
             className={cn(
               elementConfig.width,
               elementConfig.height,
-              elementConfig.isLink && "border rounded-3xl"
+              elementConfig.isLink && " border rounded-3xl"
             )}
             style={elementConfig.imageStyle}
             draggable={false}
@@ -119,11 +119,9 @@ export const generateUniqueElements = () => {
                 href={elementConfig.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block"
+                className="block "
                 onClick={(e) => {
-                  // Prevent navigation if dragging
-                  if (isDragging.current) {
-                    e.preventDefault();
+                  if (!isDragging.current) {
                     e.stopPropagation();
                   }
                 }}
@@ -156,7 +154,6 @@ export const generateUniqueElements = () => {
     })
   );
 };
-
 
 // Function to convert SVG path "d" to vertices
 export function parsePathToVertices(path, sampleLength = 15) {

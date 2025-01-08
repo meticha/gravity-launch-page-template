@@ -34,9 +34,12 @@ const MatterBody = ({
   className,
   matterBodyOptions = {
     friction: 0.1,
-    restitution: 0.1,
+    restitution: 0.6, // Increased restitution
     density: 0.001,
     isStatic: false,
+    slop: 0.05, // Added slop for better collision handling
+    frictionStatic: 0.5, // Added static friction
+    frictionAir: 0.001, // Added air friction
   },
   bodyType = "rectangle",
   isDraggable = true,
@@ -103,7 +106,16 @@ const Gravity = forwardRef(
     ref
   ) => {
     const canvas = useRef(null);
-    const engine = useRef(Engine.create());
+    const engine = useRef(
+      Engine.create({
+        enableSleeping: false, // Disable sleeping
+        constraintIterations: 4, // Increase constraint iterations
+        positionIterations: 8, // Increase position iterations
+        velocityIterations: 8, // Increase velocity iterations
+      })
+    );
+
+    // const engine = useRef(Engine.create());
     const render = useRef();
     const runner = useRef();
     const bodiesMap = useRef(new Map());
@@ -204,6 +216,8 @@ const Gravity = forwardRef(
       Common.setDecomp(decomp);
 
       engine.current.gravity.x = gravity.x;
+      // engine.current.gravity.y = gravity.y * 0.001 * 9.81; // Scale gravity to be more realistic
+
       engine.current.gravity.y = gravity.y;
 
       render.current = Render.create({
@@ -214,14 +228,18 @@ const Gravity = forwardRef(
           height,
           wireframes: false,
           background: "#00000000",
+          pixelRatio: window.devicePixelRatio, // Added for better rendering
         },
       });
 
       const mouse = Mouse.create(render.current.canvas);
+      mouse.pixelRatio = window.devicePixelRatio; // Scale mouse coordinates
+
       mouseConstraint.current = MouseConstraint.create(engine.current, {
         mouse: mouse,
         constraint: {
           stiffness: 0.2,
+          damping: 0.1, // Added damping for smoother dragging
           render: {
             visible: debug,
           },
@@ -232,6 +250,7 @@ const Gravity = forwardRef(
         Bodies.rectangle(width / 2, height + 10, width, 20, {
           isStatic: true,
           friction: 1,
+          restitution: 0.3, // Added restitution to walls
           render: { visible: debug },
         }),
         Bodies.rectangle(width + 10, height / 2, 20, height, {
@@ -304,6 +323,24 @@ const Gravity = forwardRef(
         runner.current.enabled = true;
         startEngine();
       }
+
+      Events.on(engine.current, "collisionStart", (event) => {
+        event.pairs.forEach((pair) => {
+          const bodyA = pair.bodyA;
+          const bodyB = pair.bodyB;
+
+          // Apply small impulse on collision to prevent sticking
+          const force = 0.0001;
+          Matter.Body.applyForce(bodyA, bodyA.position, {
+            x: (Math.random() - 0.5) * force,
+            y: (Math.random() - 0.5) * force,
+          });
+          Matter.Body.applyForce(bodyB, bodyB.position, {
+            x: (Math.random() - 0.5) * force,
+            y: (Math.random() - 0.5) * force,
+          });
+        });
+      });
     }, [
       updateElements,
       debug,

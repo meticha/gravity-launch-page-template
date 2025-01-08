@@ -411,21 +411,20 @@ const Gravity = forwardRef(
     );
 
     useEffect(() => {
-      if (!resetOnResize) return;
+      if (!canvas.current) return;
 
-      const debouncedResize = debounce(handleResize, 500);
-      window.addEventListener("resize", debouncedResize);
-
-      return () => {
-        window.removeEventListener("resize", debouncedResize);
-        debouncedResize.cancel();
-      };
-    }, [handleResize, resetOnResize]);
-
-    useEffect(() => {
       initializeRenderer();
-      return clearRenderer;
-    }, [initializeRenderer, clearRenderer]);
+
+      if (resetOnResize) {
+        const debouncedResize = debounce((handleResize), 300);
+        window.addEventListener("resize", debouncedResize);
+        return () => window.removeEventListener("resize", debouncedResize);
+      }
+
+      return () => clearRenderer();
+    }, [initializeRenderer, handleResize, resetOnResize, clearRenderer]);
+
+
 
     return (
       <GravityContext.Provider value={{ registerElement, unregisterElement }}>

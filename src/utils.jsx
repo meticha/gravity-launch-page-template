@@ -3,6 +3,7 @@ import { twMerge } from "tailwind-merge";
 import { clsx } from "clsx";
 import { elementsConfig } from "./constants";
 import { useEffect, useRef } from "react";
+import Matter from "matter-js";
 
 export function cn(...inputs) {
   return twMerge(clsx(inputs));
@@ -22,25 +23,75 @@ function shuffleArray(array) {
 
 export const generateUniqueElements = () => {
   const isDragging = useRef(false);
+  const mouseConstraint = useRef(null);
 
+  // Initialize Matter.js engine and mouse constraint
   useEffect(() => {
-    const handleMouseDown = () => {
-      isDragging.current = false;
-    };
+    const engine = Matter.Engine.create();
+    const render = Matter.Render.create({
+      element: document.body,
+      engine: engine,
+    });
 
-    const handleMouseMove = () => {
-      isDragging.current = true;
-    };
+    const mouse = Matter.Mouse.create(render.canvas);
+    const mouseConstraintInstance = Matter.MouseConstraint.create(engine, {
+      mouse: mouse,
+      constraint: {
+        stiffness: 0.2,
+        render: {
+          visible: false,
+        },
+      },
+    });
 
-    window.addEventListener("mousedown", handleMouseDown);
-    window.addEventListener("mousemove", handleMouseMove);
+    Matter.World.add(engine.world, mouseConstraintInstance);
+    mouseConstraint.current = mouseConstraintInstance;
+
+    Matter.Engine.run(engine);
+    Matter.Render.run(render);
 
     return () => {
-      window.removeEventListener("mousedown", handleMouseDown);
-      window.removeEventListener("mousemove", handleMouseMove);
+      Matter.World.remove(engine.world, mouseConstraintInstance);
+      Matter.Engine.clear(engine);
     };
   }, []);
 
+  // Handle drag events
+  useEffect(() => {
+    if (mouseConstraint.current) {
+      const handleStartDrag = () => {
+        isDragging.current = true;
+        // Temporarily disable pointer events for links
+        document.querySelectorAll("a").forEach((link) => {
+          link.style.pointerEvents = "none";
+        });
+      };
+
+      const handleEndDrag = () => {
+        setTimeout(() => {
+          isDragging.current = false;
+          // Re-enable pointer events for links
+          document.querySelectorAll("a").forEach((link) => {
+            link.style.pointerEvents = "auto";
+          });
+        }, 100);
+      };
+
+      Matter.Events.on(mouseConstraint.current, "startdrag", handleStartDrag);
+      Matter.Events.on(mouseConstraint.current, "enddrag", handleEndDrag);
+
+      return () => {
+        Matter.Events.off(
+          mouseConstraint.current,
+          "startdrag",
+          handleStartDrag
+        );
+        Matter.Events.off(mouseConstraint.current, "enddrag", handleEndDrag);
+      };
+    }
+  }, []);
+
+  // Generate and render elements
   return shuffleArray(
     elementsConfig.map((elementConfig) => {
       if (elementConfig.type === "image") {
@@ -51,7 +102,7 @@ export const generateUniqueElements = () => {
             className={cn(
               elementConfig.width,
               elementConfig.height,
-              elementConfig.isLink && " border rounded-3xl"
+              elementConfig.isLink && "border rounded-3xl"
             )}
             style={elementConfig.imageStyle}
             draggable={false}
@@ -68,9 +119,11 @@ export const generateUniqueElements = () => {
                 href={elementConfig.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block "
+                className="block"
                 onClick={(e) => {
-                  if (!isDragging.current) {
+                  // Prevent navigation if dragging
+                  if (isDragging.current) {
+                    e.preventDefault();
                     e.stopPropagation();
                   }
                 }}

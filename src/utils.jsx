@@ -96,17 +96,22 @@ export const generateUniqueElements = () => {
     elementsConfig.map((elementConfig) => {
       if (elementConfig.type === "image") {
         const imageElement = (
-          <img
-            src={elementConfig.src}
-            alt="Shape"
-            className={cn(
-              elementConfig.width,
-              elementConfig.height,
-              elementConfig.isLink && " border rounded-3xl"
-            )}
-            style={elementConfig.imageStyle}
-            draggable={false}
-          />
+          <div
+            style={elementConfig.containerStyle}
+            className="pointer-events-auto"
+          >
+            <img
+              src={elementConfig.src}
+              alt="Shape"
+              className={cn(
+                elementConfig.width,
+                elementConfig.height,
+                elementConfig.isLink && " border rounded-3xl"
+              )}
+              style={elementConfig.imageStyle}
+              draggable={false}
+            />
+          </div>
         );
 
         if (elementConfig.isLink) {

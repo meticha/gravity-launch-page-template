@@ -10,7 +10,7 @@ const App = () => {
   const scrollContainerRef = useRef(null);
 
   const handleScroll = () => {
-    console.log("first");
+    // console.log("first");
     if (scrollContainerRef.current) {
       const scrollPosition = scrollContainerRef.current.scrollTop;
       setIsScrolled(scrollPosition > window.innerHeight);
@@ -21,13 +21,20 @@ const App = () => {
     if (scrollContainer) {
       scrollContainer.addEventListener("scroll", handleScroll);
     }
+    if (!sessionStorage.getItem("reloaded")) {
+      sessionStorage.setItem("reloaded", "true");
+      window.location.reload();
+    }
     return () => {
       if (scrollContainer) {
         scrollContainer.removeEventListener("scroll", handleScroll);
       }
     };
-  }, []);
 
+    
+  }, []);
+  
+  // window.location.reload();
   // console.log("first")
   return (
     <div

@@ -8,8 +8,14 @@ export function cn(...inputs) {
   return twMerge(clsx(inputs));
 }
 
-export function getRandomNumber() {
-  return Math.floor(Math.random() * 70);
+export function getRandomNumber(min = 0, max = 100) {
+  // Ensure parameters are numbers and min is less than max
+  min = Number(min);
+  max = Number(max);
+  if (min > max) [min, max] = [max, min];
+
+  // Calculate random number between min and max (inclusive)
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 function shuffleArray(array) {
@@ -72,6 +78,8 @@ export const generateUniqueElements = () => {
                 onClick={(e) => {
                   if (!isDragging.current) {
                     e.stopPropagation();
+                  } else {
+                    e.preventDefault(); // Prevent link click while dragging
                   }
                 }}
               >
@@ -142,16 +150,26 @@ export function parsePathToVertices(path, sampleLength = 15) {
   return points;
 }
 
-export function calculatePosition(value, containerSize, elementSize) {
+export function calculatePosition(value, containerSize, elementSize, isVerticalLaunch = false) {
   if (typeof value === "string" && value.endsWith("%")) {
     const percentage = parseFloat(value) / 100;
+
     // Add padding to prevent objects from being placed too close to edges
     const padding = elementSize / 2;
     const availableSize = containerSize - padding * 2;
+
+    // For vertical launch, allow values outside the visible area (e.g., negative)
+    if (isVerticalLaunch) {
+      return -elementSize + availableSize * percentage; // Start above the container
+    }
+
     return padding + availableSize * percentage;
   }
+
   return typeof value === "number"
-    ? value
+    ? isVerticalLaunch
+      ? Math.min(containerSize - elementSize / 2, Math.max(-elementSize, value)) // Allow negative values
+      : value
     : Math.min(containerSize - elementSize / 2, Math.max(elementSize / 2, elementSize));
 }
 

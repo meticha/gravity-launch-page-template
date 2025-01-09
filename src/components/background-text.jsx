@@ -6,7 +6,7 @@ const BackgroundText = () => {
       <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold text-white mb-2 sm:mb-4">
         YES!
       </h1>
-      <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl leading-tight font-bold text-white/30 max-w-xs sm:max-w-sm md:max-w-2xl lg:max-w-4xl px-4">
+      <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl leading-tight font-bold text-white/70  0 max-w-xs sm:max-w-sm md:max-w-2xl lg:max-w-4xl px-4">
       Jetpack Compose Snippets
         <br />
         Your Go-To Library for Jetpack Compose Snippets.

@@ -10,9 +10,9 @@ const App = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const scrollContainerRef = useRef(null);
   const [isReady, setIsReady] = useState(false);
-  const [windowSize, setWindowSize] = useState({ 
-    width: window.innerWidth, 
-    height: window.innerHeight 
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
   });
 
   const handleScroll = () => {
@@ -24,22 +24,27 @@ const App = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      setWindowSize({ 
-        width: window.innerWidth, 
-        height: window.innerHeight 
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
       });
     };
 
     // Set initial size
     handleResize();
-    
+
+    if (!sessionStorage.getItem("reloaded")) {
+      sessionStorage.setItem("reloaded", "true");
+      window.location.reload();
+    }
+
     // Wait for a brief moment to ensure all components are properly mounted
     const timer = setTimeout(() => {
       setIsReady(true);
     }, 100);
 
     window.addEventListener("resize", handleResize);
-    
+
     const scrollContainer = scrollContainerRef.current;
     if (scrollContainer) {
       scrollContainer.addEventListener("scroll", handleScroll);

@@ -9,7 +9,7 @@ const BackgroundText = () => {
       <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl leading-tight font-bold text-white/70  0 max-w-xs sm:max-w-sm md:max-w-2xl lg:max-w-4xl px-4">
       Jetpack Compose Snippets
         <br />
-        Your Go-To Library for Jetpack Compose Snippets.
+          Your Go-To Library for Ready To Use Snippets.
         <br />
         Launching in
       </p>

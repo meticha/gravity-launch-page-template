@@ -5,7 +5,10 @@ const FloatingLabel = () => {
   const [isAnimating, setIsAnimating] = useState(false);
 
   return (
-    <motion.div
+    <motion.a
+      href="https://meticha.com"
+      target="_blank"
+      rel="noopener noreferrer"
       className="fixed bottom-6 right-6 z-50 bg-white backdrop-blur-md 
                  px-3 py-2 rounded-full shadow-lg cursor-pointer
                  hover:bg-white/90 hover:shadow-xl transition-all duration-300
@@ -22,7 +25,7 @@ const FloatingLabel = () => {
         damping: 20,
         mass: 1,
       }}
-      onClick={() => setIsAnimating((prev) => !prev)}
+      // onClick={() => setIsAnimating((prev) => !prev)}
     >
       <div className="flex items-center gap-3 w-full">
         <AnimatePresence mode="popLayout">
@@ -84,7 +87,7 @@ const FloatingLabel = () => {
           />
         </motion.div>
       </div>
-    </motion.div>
+    </motion.a>
   );
 };
 

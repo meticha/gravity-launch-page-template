@@ -150,7 +150,21 @@ export function parsePathToVertices(path, sampleLength = 15) {
   return points;
 }
 
-export function calculatePosition(value, containerSize, elementSize, isVerticalLaunch = false) {
+export function calculatePosition(
+  value,
+  containerSize,
+  elementSize,
+  isVerticalLaunch = false,
+  isRandom = false
+) {
+  if (isRandom) {
+    // Generate a random position within the container bounds
+    const padding = elementSize / 2;
+    const min = isVerticalLaunch ? -elementSize : padding;
+    const max = containerSize - padding;
+    return Math.random() * (max - min) + min; // Random value within [min, max]
+  }
+
   if (typeof value === "string" && value.endsWith("%")) {
     const percentage = parseFloat(value) / 100;
 
@@ -172,6 +186,7 @@ export function calculatePosition(value, containerSize, elementSize, isVerticalL
       : value
     : Math.min(containerSize - elementSize / 2, Math.max(elementSize / 2, elementSize));
 }
+
 
 
 export const generateRandomElement = () => {

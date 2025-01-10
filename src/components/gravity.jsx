@@ -171,8 +171,17 @@ const Gravity = forwardRef(
         const width = element.offsetWidth;
         const height = element.offsetHeight;
         const angle = (props.angle || 0) * (Math.PI / 180);
-        const x = calculatePosition(props.x, canvasRect.width, width);
-        const y = calculatePosition(props.y, canvasRect.height, height, true);
+        const x = calculatePosition(null, canvasRect.width, width, false, true);
+        const y = calculatePosition(
+          null,
+          canvasRect.height,
+          height,
+          true,
+          true
+        );
+        // const x = calculatePosition(props.x, canvasRect.width, width);
+        // const y = calculatePosition(props.y, canvasRect.height, height, true);
+
 
         let body;
 

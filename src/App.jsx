@@ -9,7 +9,11 @@ const App = () => {
   const elements = generateUniqueElements();
   const [isScrolled, setIsScrolled] = useState(false);
   const scrollContainerRef = useRef(null);
-  const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
+  const [isReady, setIsReady] = useState(false);
+  const [windowSize, setWindowSize] = useState({ 
+    width: window.innerWidth, 
+    height: window.innerHeight 
+  });
 
   const handleScroll = () => {
     if (scrollContainerRef.current) {
@@ -20,16 +24,22 @@ const App = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+      setWindowSize({ 
+        width: window.innerWidth, 
+        height: window.innerHeight 
+      });
     };
 
-    handleResize(); // Set initial size
-    window.addEventListener("resize", handleResize);
+    // Set initial size
+    handleResize();
+    
+    // Wait for a brief moment to ensure all components are properly mounted
+    const timer = setTimeout(() => {
+      setIsReady(true);
+    }, 100);
 
-    if (!sessionStorage.getItem("reloaded")) {
-      sessionStorage.setItem("reloaded", "true");
-      window.location.reload();
-    }
+    window.addEventListener("resize", handleResize);
+    
     const scrollContainer = scrollContainerRef.current;
     if (scrollContainer) {
       scrollContainer.addEventListener("scroll", handleScroll);
@@ -40,13 +50,13 @@ const App = () => {
       if (scrollContainer) {
         scrollContainer.removeEventListener("scroll", handleScroll);
       }
+      clearTimeout(timer);
     };
   }, []);
 
   const getRandomPosition = () => {
-    const side = Math.floor(Math.random() * 4); // 0: top, 1: right, 2: bottom, 3: left
+    const side = Math.floor(Math.random() * 4);
     let x, y;
-
     switch (side) {
       case 0: // top
         x = getRandomNumber(0, 100);
@@ -65,9 +75,12 @@ const App = () => {
         y = getRandomNumber(0, 100);
         break;
     }
-
     return { x: `${x}`, y: `${y}` };
   };
+
+  if (!isReady) {
+    return null; // or a loading spinner
+  }
 
   return (
     <div
@@ -77,15 +90,14 @@ const App = () => {
         overflowY: "auto",
       }}
     >
-      {/* Physics Layer */}
       <div
-        className="fixed inset-0 bg-[#4169E1]"
+        className="fixed inset-0 bg-gradient-to-t from-green-300 to-green-500"
         style={{ zIndex: isScrolled ? 0 : 1 }}
       >
         <BackgroundText />
         <div className="absolute inset-0">
           <Gravity
-            gravity={{ x: 0, y: 0.5 }}
+            gravity={{ x: 0, y: 1.5 }}
             resetOnResize={true}
             addTopWall={true}
           >
@@ -103,8 +115,6 @@ const App = () => {
           </Gravity>
         </div>
       </div>
-
-      {/* Scrollable Content */}
       <div>
         <div style={{ height: "100vh" }} />
         <div style={{ zIndex: 2 }}>{/* ... rest of your content ... */}</div>

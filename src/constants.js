@@ -209,7 +209,7 @@ export const elementsConfig = [
   {
     type: "image",
     src: "/assets/Group 20.svg",
-    width: "w-12 md:w-24",
+    width: "w-16 md:w-24",
     // height: "h-12 md:h-20",
     imageStyle: {
       filter: "drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1))",
@@ -219,7 +219,7 @@ export const elementsConfig = [
   // {
   //   type: "image",
   //   src: "/assets/Group 25.svg",
-  //   width: "w-12 md:w-24",
+  //   width: "w-16 md:w-24",
   //   // height: "h-24 md:h-48",
   //   imageStyle: {
   //     filter: "drop-shadow(0 2px 2px rgba(0, 0, 0, 0.1))",
@@ -229,7 +229,7 @@ export const elementsConfig = [
   {
     type: "image",
     src: "/assets/Group 26 (2).png",
-    width: "w-8 md:w-16",
+    width: "w-12 md:w-16",
     // height: "h-24 md:h-48",
     imageStyle: {
       filter: "drop-shadow(0 2px 2px rgba(0, 0, 0, 0.1))",
@@ -239,7 +239,7 @@ export const elementsConfig = [
   {
     type: "image",
     src: "/assets/Group 27.svg",
-    width: "w-12 md:w-24",
+    width: "w-16 md:w-24",
     // height: "h-24 md:h-48",
     imageStyle: {
       filter: "drop-shadow(0 2px 2px rgba(0, 0, 0, 0.1))",
@@ -249,7 +249,7 @@ export const elementsConfig = [
   {
     type: "image",
     src: "/assets/Group 28.svg",
-    width: "w-8 md:w-16",
+    width: "w-12 md:w-16",
     // height: "h-24 md:h-48",
     imageStyle: {
       filter: "drop-shadow(0 2px 2px rgba(0, 0, 0, 0.1))",
@@ -259,7 +259,7 @@ export const elementsConfig = [
   {
     type: "image",
     src: "/assets/Group 30.svg",
-    width: "w-12 md:w-24",
+    width: "w-16 md:w-24",
     // height: "h-24 md:h-48",
     imageStyle: {
       filter: "drop-shadow(0 2px 2px rgba(0, 0, 0, 0.1))",
@@ -280,7 +280,7 @@ export const elementsConfig = [
   {
     type: "image",
     src: "/assets/Simplification (3).svg",
-    width: "w-12 md:w-24",
+    width: "w-16 md:w-24",
     // height: "h-24 md:h-48",
     imageStyle: {
       filter: "drop-shadow(0 2px 2px rgba(0, 0, 0, 0.1))",

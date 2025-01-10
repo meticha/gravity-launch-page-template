@@ -12,7 +12,7 @@ const FloatingLabel = () => {
                  flex items-center justify-end overflow-hidden"
       initial={{ width: "auto", opacity: 0, y: 20 }}
       animate={{
-        width: isAnimating ? "160px" : "auto",
+        width: isAnimating ? "200px" : "auto", // Increased width for link
         opacity: 1,
         y: 0,
       }}
@@ -27,8 +27,8 @@ const FloatingLabel = () => {
       <div className="flex items-center gap-3 w-full">
         <AnimatePresence mode="popLayout">
           {isAnimating && (
-            <motion.span
-              className="text-sm font-medium text-gray-700 whitespace-nowrap"
+            <motion.div
+              className="flex items-center gap-2"
               initial={{ x: -20, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: -20, opacity: 0 }}
@@ -39,8 +39,18 @@ const FloatingLabel = () => {
                 mass: 0.8,
               }}
             >
-              Powered by
-            </motion.span>
+              <span className="text-sm font-medium text-gray-700 whitespace-nowrap">
+                Powered by
+              </span>
+              <a
+                href="https://meticha.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm font-medium text-blue-500 underline hover:text-blue-700 transition-colors duration-200"
+              >
+                Meticha
+              </a>
+            </motion.div>
           )}
         </AnimatePresence>
         <motion.div

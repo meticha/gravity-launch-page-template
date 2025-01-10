@@ -26,6 +26,10 @@ const App = () => {
     handleResize(); // Set initial size
     window.addEventListener("resize", handleResize);
 
+    if (!sessionStorage.getItem("reloaded")) {
+      sessionStorage.setItem("reloaded", "true");
+      window.location.reload();
+    }
     const scrollContainer = scrollContainerRef.current;
     if (scrollContainer) {
       scrollContainer.addEventListener("scroll", handleScroll);

@@ -79,7 +79,7 @@ const App = () => {
     >
       {/* Physics Layer */}
       <div
-        className="fixed inset-0 bg-[#1E90FF]"
+        className="fixed inset-0 bg-[#B0C4DE]"
         style={{ zIndex: isScrolled ? 0 : 1 }}
       >
         <BackgroundText />

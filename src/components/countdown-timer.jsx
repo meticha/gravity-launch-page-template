@@ -10,7 +10,7 @@ const CountdownTimer = () => {
   });
 
   useEffect(() => {
-    const targetDate = new Date(2025, 0, 17); // January 15, 2025
+    const targetDate = new Date(2025, 0, 17); // January 17, 2025
 
     const updateTimer = () => {
       const now = new Date();
@@ -35,52 +35,64 @@ const CountdownTimer = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center p-4 max-w-full">
-      <div className="flex justify-center gap-2 sm:gap-4">
-        <AnimatePresence mode="popLayout">
-          {Object.entries(timeLeft).map(([unit, value], index) => (
-            <motion.div
-              key={unit}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{
-                duration: 0.5,
-                delay: index * 0.1,
-                type: "spring",
-                stiffness: 300,
-                damping: 20,
-              }}
-              className="w-14 h-18 sm:w-20 sm:h-24 md:w-24 md:h-32 bg-cyan-600 rounded-lg flex flex-col items-center justify-center shadow-lg p-2"
-            >
-              <motion.span
-                initial={{ scale: 0.5 }}
-                animate={{ scale: 1 }}
-                transition={{
-                  type: "spring",
-                  stiffness: 300,
-                  damping: 20,
-                  delay: index * 0.1,
-                }}
-                className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white"
-              >
-                {value.toString().padStart(2, "0")}
-              </motion.span>
-              <span className="text-xs sm:text-sm text-white/80 capitalize">
-                {unit}
-              </span>
-            </motion.div>
-          ))}
-        </AnimatePresence>
-      </div>
-      <motion.h2
+    <div className="w-full h-full flex items-center justify-center">
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.8 }}
-        className="text-lg sm:text-xl md:text-2xl font-bold text-white mt-4 text-center"
+        transition={{ duration: 0.8 }}
+        className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-xl shadow-lg overflow-hidden"
       >
-        Countdown to January 17, 2025
-      </motion.h2>
+        <div className="px-1 py-3 sm:p-3 md:p-4 lg:p-6">
+          <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white text-center mb-4 sm:mb-5">
+            Countdown to Launch
+          </h2>
+          <div className="flex justify-center gap-1 sm:gap-2 md:gap-3">
+            <AnimatePresence mode="popLayout">
+              {Object.entries(timeLeft).map(([unit, value], index) => (
+                <motion.div
+                  key={unit}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{
+                    duration: 0.5,
+                    delay: index * 0.1,
+                    type: "spring",
+                    stiffness: 300,
+                    damping: 20,
+                  }}
+                  className="flex flex-col items-center"
+                >
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-lg flex flex-col items-center justify-center shadow-md">
+                    <motion.span
+                      initial={{ scale: 0.5 }}
+                      animate={{ scale: 1 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 300,
+                        damping: 20,
+                        delay: index * 0.1,
+                      }}
+                      className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white"
+                    >
+                      {value.toString().padStart(2, "0")}
+                    </motion.span>
+                  </div>
+                  <span className="text-xs sm:text-sm text-gray-300 mt-1 capitalize">
+                    {unit}
+                  </span>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </div>
+        </div>
+        <div className="bg-gray-700 px-3 py-2 sm:px-4 sm:py-3 md:px-5 md:py-4 lg:px-6 lg:py-5">
+          <p className="text-center text-gray-300 text-xs sm:text-sm md:text-base">
+            Launching on{" "}
+            <span className="font-semibold text-white">January 17, 2025</span>
+          </p>
+        </div>
+      </motion.div>
     </div>
   );
 };

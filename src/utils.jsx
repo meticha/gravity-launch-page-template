@@ -62,7 +62,7 @@ export const generateUniqueElements = () => {
             style={elementConfig.imageStyle}
             draggable={false}
           />
-        );
+        ); 
 
         if (elementConfig.isLink) {
           return (

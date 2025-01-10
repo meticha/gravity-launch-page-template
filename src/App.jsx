@@ -3,39 +3,68 @@ import Gravity, { MatterBody } from "./components/gravity";
 import CountdownTimer from "./components/countdown-timer";
 import { generateUniqueElements, getRandomNumber } from "./utils";
 import BackgroundText from "./components/background-text";
+import FloatingLabel from "./components/FloatingLable";
 
 const App = () => {
   const elements = generateUniqueElements();
   const [isScrolled, setIsScrolled] = useState(false);
   const scrollContainerRef = useRef(null);
+  const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
 
   const handleScroll = () => {
-    // console.log("first");
     if (scrollContainerRef.current) {
       const scrollPosition = scrollContainerRef.current.scrollTop;
       setIsScrolled(scrollPosition > window.innerHeight);
     }
   };
+
   useEffect(() => {
+    const handleResize = () => {
+      setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+    };
+
+    handleResize(); // Set initial size
+    window.addEventListener("resize", handleResize);
+
     const scrollContainer = scrollContainerRef.current;
     if (scrollContainer) {
       scrollContainer.addEventListener("scroll", handleScroll);
     }
-    if (!sessionStorage.getItem("reloaded")) {
-      sessionStorage.setItem("reloaded", "true");
-      window.location.reload();
-    }
+
     return () => {
+      window.removeEventListener("resize", handleResize);
       if (scrollContainer) {
         scrollContainer.removeEventListener("scroll", handleScroll);
       }
     };
-
-    
   }, []);
-  
-  // window.location.reload();
-  // console.log("first")
+
+  const getRandomPosition = () => {
+    const side = Math.floor(Math.random() * 4); // 0: top, 1: right, 2: bottom, 3: left
+    let x, y;
+
+    switch (side) {
+      case 0: // top
+        x = getRandomNumber(0, 100);
+        y = -10;
+        break;
+      case 1: // right
+        x = 110;
+        y = getRandomNumber(0, 100);
+        break;
+      case 2: // bottom
+        x = getRandomNumber(0, 100);
+        y = 110;
+        break;
+      case 3: // left
+        x = -10;
+        y = getRandomNumber(0, 100);
+        break;
+    }
+
+    return { x: `${x}`, y: `${y}` };
+  };
+
   return (
     <div
       ref={scrollContainerRef}
@@ -46,9 +75,9 @@ const App = () => {
     >
       {/* Physics Layer */}
       <div
-  className="fixed inset-0 bg-[#BF00FF]"  // A vibrant hot pink/red
-  style={{ zIndex: isScrolled ? 0 : 1 }}
->
+        className="fixed inset-0 bg-gradient-to-r from-[#1e3c72] to-[#2a5298]"
+        style={{ zIndex: isScrolled ? 0 : 1 }}
+      >
         <BackgroundText />
         <div className="absolute inset-0">
           <Gravity
@@ -59,15 +88,14 @@ const App = () => {
             <MatterBody x="50" y="50">
               <CountdownTimer />
             </MatterBody>
-            {elements.map((element, index) => (
-              <MatterBody
-                key={index}
-                x={`${getRandomNumber(10, 90)}`}
-                y="10" // Random negative values for staggered falling
-              >
-                {element}
-              </MatterBody>
-            ))}
+            {elements.map((element, index) => {
+              const position = getRandomPosition();
+              return (
+                <MatterBody key={index} x={position.x} y={position.y}>
+                  {element}
+                </MatterBody>
+              );
+            })}
           </Gravity>
         </div>
       </div>
@@ -75,56 +103,9 @@ const App = () => {
       {/* Scrollable Content */}
       <div>
         <div style={{ height: "100vh" }} />
-
-        <div style={{ zIndex: 2 }}>
-          <div className="bg-white/90 backdrop-blur-sm">
-            <div className="h-[100px] text-center flex items-center justify-center">
-              <h2 className="text-2xl font-bold">Hello</h2>
-            </div>
-            <div className="max-w-4xl mx-auto p-8">
-              <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
-                <h3 className="text-xl font-semibold mb-4">Section 1</h3>
-                <p className="text-gray-600">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                </p>
-              </div>
-              <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
-                <h3 className="text-xl font-semibold mb-4">Section 2</h3>
-                <p className="text-gray-600">
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat.
-                </p>
-              </div>
-              <div className="bg-white rounded-lg shadow-lg p-6">
-                <h3 className="text-xl font-semibold mb-4">Section 3</h3>
-                <p className="text-gray-600">
-                  Duis aute irure dolor in reprehenderit in voluptate velit esse
-                  cillum dolore eu fugiat nulla pariatur.
-                </p>
-              </div>
-            </div>
-            <footer className="bg-gray-800 text-white text-center py-8">
-              <div className="max-w-4xl mx-auto px-4">
-                <p className="mb-4">
-                  &copy; 2025 Your Company Name. All rights reserved.
-                </p>
-                <div className="flex justify-center space-x-6">
-                  <a href="#" className="hover:text-gray-300">
-                    Terms
-                  </a>
-                  <a href="#" className="hover:text-gray-300">
-                    Privacy
-                  </a>
-                  <a href="#" className="hover:text-gray-300">
-                    Contact
-                  </a>
-                </div>
-              </div>
-            </footer>
-          </div>
-        </div>
+        <div style={{ zIndex: 2 }}>{/* ... rest of your content ... */}</div>
       </div>
+      <FloatingLabel />
     </div>
   );
 };

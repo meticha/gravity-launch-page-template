@@ -10,7 +10,7 @@ const CountdownTimer = () => {
   });
 
   useEffect(() => {
-    const targetDate = new Date(2025, 0, 17); // January 17, 2025
+    const targetDate = new Date(2025, 0, 22); // January 22, 2025
 
     const updateTimer = () => {
       const now = new Date();

@@ -2,7 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 
 const FloatingLabel = () => {
-  const text = "POWERED BY METICHA";
+  const text = " POWERED BY METICHA ";
   const characters = text.split("");
 
   return (

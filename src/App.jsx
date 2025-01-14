@@ -42,7 +42,7 @@ const App = () => {
       setTimeout(() => {
         setIsTimerMounted(true);
       }, 1000);
-    }, 500);
+    }, 1500);
 
     window.addEventListener("resize", handleResize);
 

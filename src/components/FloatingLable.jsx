@@ -1,91 +1,63 @@
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React from "react";
+import { motion } from "framer-motion";
 
 const FloatingLabel = () => {
-  const [isAnimating, setIsAnimating] = useState(false);
+  const text = "POWERED BY METICHA";
+  const characters = text.split("");
 
   return (
     <motion.a
       href="https://meticha.com"
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-6 right-6 z-50 bg-white backdrop-blur-md 
-                 px-3 py-2 rounded-full shadow-lg cursor-pointer
-                 hover:bg-white/90 hover:shadow-xl transition-all duration-300
-                 flex items-center justify-end overflow-hidden"
-      initial={{ width: "auto", opacity: 0, y: 20 }}
-      animate={{
-        width: isAnimating ? "200px" : "auto", // Increased width for link
-        opacity: 1,
-        y: 0,
-      }}
-      transition={{
-        type: "spring",
-        stiffness: 100,
-        damping: 20,
-        mass: 1,
-      }}
-      // onClick={() => setIsAnimating((prev) => !prev)}
+      className="fixed bottom-6 right-6 z-50 cursor-pointer group"
+      whileHover={{ scale: 1.05 }}
+      transition={{ type: "spring", stiffness: 400, damping: 20 }}
     >
-      <div className="flex items-center gap-3 w-full">
-        <AnimatePresence mode="popLayout">
-          {isAnimating && (
-            <motion.div
-              className="flex items-center gap-2"
-              initial={{ x: -20, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              exit={{ x: -20, opacity: 0 }}
-              transition={{
-                type: "spring",
-                stiffness: 100,
-                damping: 20,
-                mass: 0.8,
+      <div className="relative w-[100px] h-[100px] bg-purple-600 rounded-full overflow-hidden transition-colors duration-300 group-hover:bg-black">
+        {/* Rotating Text */}
+        <motion.div
+          className="absolute inset-0 flex items-center justify-center"
+          animate={{
+            rotate: [0, 360],
+          }}
+          transition={{
+            repeat: Infinity,
+            duration: 10,
+            ease: "linear",
+          }}
+        >
+          {characters.map((char, index) => (
+            <span
+              key={index}
+              className="absolute text-white text-sm font-semibold"
+              style={{
+                transform: `rotate(${index * (360 / characters.length)}deg) translateY(-40px)`,
+                transformOrigin: "center",
               }}
             >
-              <span className="text-sm font-medium text-gray-700 whitespace-nowrap">
-                Powered by
-              </span>
-              <a
-                href="https://meticha.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm font-medium text-blue-500 underline hover:text-blue-700 transition-colors duration-200"
-              >
-                Meticha
-              </a>
-            </motion.div>
-          )}
-        </AnimatePresence>
-        <motion.div
-          className="relative w-8 h-8 md:w-10 md:h-10"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <motion.img
-            src="/assets/Group 25.svg"
-            alt="Logo"
-            className="w-full h-full object-contain"
-            style={{
-              filter: "drop-shadow(0 2px 2px rgba(0, 0, 0, 0.1))",
-            }}
-            animate={{
-              rotate: isAnimating ? 360 : 0,
-            }}
-            transition={{
-              rotate: {
-                type: "spring",
-                stiffness: 60,
-                damping: 15,
-                mass: 1,
-              },
-            }}
-          />
-          <motion.div
-            className="absolute inset-0 bg-purple-500 rounded-full opacity-0"
-            whileHover={{ opacity: 0.1 }}
-            transition={{ duration: 0.2 }}
-          />
+              {char}
+            </span>
+          ))}
         </motion.div>
+
+        {/* Center Circle with Icons */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 bg-white rounded-full flex items-center justify-center overflow-hidden shadow-lg">
+          <motion.div className="relative w-full h-full">
+            {/* Logo Image */}
+            <motion.img
+              src="/assets/Group 25.svg"
+              alt="Logo"
+              className="absolute inset-0 w-full h-full object-contain p-2 transition-transform duration-300 group-hover:translate-x-[150%] group-hover:-translate-y-[150%]"
+            />
+            {/* Copy of Logo Image */}
+            <motion.img
+              src="/assets/Group 25.svg"
+              alt="Logo"
+              className="absolute inset-0 w-full h-full object-contain p-2 translate-x-[-150%] translate-y-[150%] transition-transform duration-300 delay-100 group-hover:translate-x-0 group-hover:translate-y-0"
+            />
+          </motion.div>
+        </div>
       </div>
     </motion.a>
   );

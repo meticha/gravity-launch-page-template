@@ -14,6 +14,8 @@ const App = () => {
     width: window.innerWidth,
     height: window.innerHeight,
   });
+  const [isTimerMounted, setIsTimerMounted] = useState(false);
+  const gravityRef = useRef(null);
 
   const handleScroll = () => {
     if (scrollContainerRef.current) {
@@ -33,15 +35,14 @@ const App = () => {
     // Set initial size
     handleResize();
 
-    if (!sessionStorage.getItem("reloaded")) {
-      sessionStorage.setItem("reloaded", "true");
-      window.location.reload();
-    }
-
     // Wait for a brief moment to ensure all components are properly mounted
     const timer = setTimeout(() => {
       setIsReady(true);
-    }, 100);
+      // Delay timer mounting to ensure gravity engine is initialized
+      setTimeout(() => {
+        setIsTimerMounted(true);
+      }, 1000);
+    }, 500);
 
     window.addEventListener("resize", handleResize);
 
@@ -84,7 +85,11 @@ const App = () => {
   };
 
   if (!isReady) {
-    return null; // or a loading spinner
+    return (
+      <div className="fixed inset-0 flex items-center justify-center bg-gradient-to-t from-green-300 to-green-500">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-white"></div>
+      </div>
+    );
   }
 
   return (
@@ -102,17 +107,46 @@ const App = () => {
         <BackgroundText />
         <div className="absolute inset-0">
           <Gravity
+            ref={gravityRef}
             gravity={{ x: 0, y: 1.5 }}
             resetOnResize={true}
             addTopWall={true}
+            autoStart={true}
           >
-            <MatterBody x="50" y="50">
-              <CountdownTimer />
-            </MatterBody>
+            {isTimerMounted && (
+              <MatterBody 
+                x="50" 
+                y="50"
+                matterBodyOptions={{
+                  friction: 0.1,
+                  restitution: 0.6,
+                  density: 0.001,
+                  isStatic: false,
+                  slop: 0.05,
+                  frictionStatic: 0.5,
+                  frictionAir: 0.001,
+                }}
+              >
+                <CountdownTimer />
+              </MatterBody>
+            )}
             {elements.map((element, index) => {
               const position = getRandomPosition();
               return (
-                <MatterBody key={index} x={position.x} y={position.y}>
+                <MatterBody 
+                  key={index} 
+                  x={position.x} 
+                  y={position.y}
+                  matterBodyOptions={{
+                    friction: 0.1,
+                    restitution: 0.6,
+                    density: 0.001,
+                    isStatic: false,
+                    slop: 0.05,
+                    frictionStatic: 0.5,
+                    frictionAir: 0.001,
+                  }}
+                >
                   {element}
                 </MatterBody>
               );

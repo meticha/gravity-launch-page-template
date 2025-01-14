@@ -28,3 +28,11 @@ html, body {
 #__next {
   min-height: 100%;
 }
+
+.group:hover svg:first-of-type {
+  transform: translate(150%, -150%);
+}
+
+.group:hover svg:nth-of-type(2) {
+  transform: translate(0, 0);
+}

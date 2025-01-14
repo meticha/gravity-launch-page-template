@@ -71,7 +71,7 @@ const MatterBody = ({
       return;
     }
 
-    const timer = requestAnimationFrame(() => {
+    const timer = setTimeout(() => {
       context.registerElement(idRef.current, element, {
         children,
         matterBodyOptions,
@@ -83,10 +83,10 @@ const MatterBody = ({
         angle,
         ...props,
       });
-    });
+    }, 100); // Delay registration to ensure proper initialization
 
     return () => {
-      cancelAnimationFrame(timer);
+      clearTimeout(timer);
       context.unregisterElement(idRef.current);
     };
   }, [
@@ -171,32 +171,31 @@ const Gravity = forwardRef(
         const width = element.offsetWidth;
         const height = element.offsetHeight;
         const angle = (props.angle || 0) * (Math.PI / 180);
-        const x = calculatePosition(null, canvasRect.width, width, false, true);
-        const y = calculatePosition(
-          null,
-          canvasRect.height,
-          height,
-          true,
-          true
-        );
-        // const x = calculatePosition(props.x, canvasRect.width, width);
-        // const y = calculatePosition(props.y, canvasRect.height, height, true);
-
+        const x =
+          props.x !== undefined
+            ? calculatePosition(props.x, canvasRect.width, width, false, true)
+            : Math.random() * (canvasRect.width - width) + width / 2;
+        const y =
+          props.y !== undefined
+            ? calculatePosition(props.y, canvasRect.height, height, true, true)
+            : Math.random() * (canvasRect.height - height) + height / 2;
 
         let body;
 
         try {
+          const bodyOptions = {
+            ...props.matterBodyOptions,
+            angle: angle,
+            render: {
+              fillStyle: debug ? "#888888" : "#00000000",
+              strokeStyle: debug ? "#333333" : "#00000000",
+              lineWidth: debug ? 3 : 0,
+            },
+          };
+
           if (props.bodyType === "circle") {
             const radius = Math.max(width, height) / 2;
-            body = Bodies.circle(x, y, radius, {
-              ...props.matterBodyOptions,
-              angle: angle,
-              render: {
-                fillStyle: debug ? "#888888" : "#00000000",
-                strokeStyle: debug ? "#333333" : "#00000000",
-                lineWidth: debug ? 3 : 0,
-              },
-            });
+            body = Bodies.circle(x, y, radius, bodyOptions);
           } else if (props.bodyType === "svg") {
             const paths = element.querySelectorAll("path");
             const vertexSets = [];
@@ -207,25 +206,9 @@ const Gravity = forwardRef(
               vertexSets.push(p);
             });
 
-            body = Bodies.fromVertices(x, y, vertexSets, {
-              ...props.matterBodyOptions,
-              angle: angle,
-              render: {
-                fillStyle: debug ? "#888888" : "#00000000",
-                strokeStyle: debug ? "#333333" : "#00000000",
-                lineWidth: debug ? 3 : 0,
-              },
-            });
+            body = Bodies.fromVertices(x, y, vertexSets, bodyOptions);
           } else {
-            body = Bodies.rectangle(x, y, width, height, {
-              ...props.matterBodyOptions,
-              angle: angle,
-              render: {
-                fillStyle: debug ? "#888888" : "#00000000",
-                strokeStyle: debug ? "#333333" : "#00000000",
-                lineWidth: debug ? 3 : 0,
-              },
-            });
+            body = Bodies.rectangle(x, y, width, height, bodyOptions);
           }
 
           if (body) {
@@ -277,7 +260,10 @@ const Gravity = forwardRef(
         options: {
           width,
           height,
-          wireframes: false,
+          wireframes: debug,
+          showMousePosition: debug,
+          showCollisions: debug,
+          showVelocity: debug,
           background: "#00000000",
           pixelRatio: window.devicePixelRatio,
         },
@@ -290,7 +276,6 @@ const Gravity = forwardRef(
         mouse: mouse,
         constraint: {
           stiffness: 0.2,
-          damping: 0.1,
           render: {
             visible: debug,
           },
@@ -332,29 +317,10 @@ const Gravity = forwardRef(
       runner.current = Runner.create();
       Render.run(render.current);
       updateElements();
-      runner.current.enabled = false;
 
       if (autoStart) {
-        runner.current.enabled = true;
         startEngine();
       }
-
-      Events.on(engine.current, "collisionStart", (event) => {
-        event.pairs.forEach((pair) => {
-          const bodyA = pair.bodyA;
-          const bodyB = pair.bodyB;
-
-          const force = 0.0001;
-          Matter.Body.applyForce(bodyA, bodyA.position, {
-            x: (Math.random() - 0.5) * force,
-            y: (Math.random() - 0.5) * force,
-          });
-          Matter.Body.applyForce(bodyB, bodyB.position, {
-            x: (Math.random() - 0.5) * force,
-            y: (Math.random() - 0.5) * force,
-          });
-        });
-      });
 
       setIsInitialized(true);
     }, [addTopWall, autoStart, debug, updateElements]);
@@ -403,7 +369,6 @@ const Gravity = forwardRef(
 
     const startEngine = useCallback(() => {
       if (runner.current && engine.current) {
-        runner.current.enabled = true;
         Runner.run(runner.current, engine.current);
       }
       if (render.current) {
@@ -465,7 +430,7 @@ const Gravity = forwardRef(
       const initTimer = setTimeout(() => {
         initializeEngine();
         initializeRenderer();
-      }, 100);
+      }, 500); // Increased delay to ensure DOM is fully loaded
 
       return () => {
         clearTimeout(initTimer);

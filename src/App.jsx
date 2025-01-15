@@ -8,43 +8,32 @@ import FloatingLabel from "./components/FloatingLable";
 const App = () => {
   const elements = generateUniqueElements();
   const [isScrolled, setIsScrolled] = useState(false);
-  const scrollContainerRef = useRef(null);
   const [isReady, setIsReady] = useState(false);
-  const [windowSize, setWindowSize] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight,
-  });
   const [isTimerMounted, setIsTimerMounted] = useState(false);
+  const scrollContainerRef = useRef(null);
   const gravityRef = useRef(null);
 
-  const handleScroll = () => {
-    if (scrollContainerRef.current) {
-      const scrollPosition = scrollContainerRef.current.scrollTop;
-      setIsScrolled(scrollPosition > window.innerHeight);
-    }
-  };
-
   useEffect(() => {
-    const handleResize = () => {
-      setWindowSize({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      });
+    const initializeApp = async () => {
+      // Ensure the app is ready before mounting components
+      setIsReady(false);
+
+      // Simulate initialization delay
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      setIsReady(true);
+
+      // Delay mounting of the timer to ensure gravity is initialized
+      setTimeout(() => setIsTimerMounted(true), 100);
     };
 
-    // Set initial size
-    handleResize();
+    initializeApp();
 
-    // Wait for a brief moment to ensure all components are properly mounted
-    const timer = setTimeout(() => {
-      setIsReady(true);
-      // Delay timer mounting to ensure gravity engine is initialized
-      setTimeout(() => {
-        setIsTimerMounted(true);
-      }, 1000);
-    }, 1500);
-
-    window.addEventListener("resize", handleResize);
+    const handleScroll = () => {
+      if (scrollContainerRef.current) {
+        const scrollPosition = scrollContainerRef.current.scrollTop;
+        setIsScrolled(scrollPosition > window.innerHeight);
+      }
+    };
 
     const scrollContainer = scrollContainerRef.current;
     if (scrollContainer) {
@@ -52,11 +41,9 @@ const App = () => {
     }
 
     return () => {
-      window.removeEventListener("resize", handleResize);
       if (scrollContainer) {
         scrollContainer.removeEventListener("scroll", handleScroll);
       }
-      clearTimeout(timer);
     };
   }, []);
 
@@ -64,22 +51,25 @@ const App = () => {
     const side = Math.floor(Math.random() * 4);
     let x, y;
     switch (side) {
-      case 0: // top
+      case 0:
         x = getRandomNumber(0, 100);
         y = -10;
         break;
-      case 1: // right
+      case 1:
         x = 110;
         y = getRandomNumber(0, 100);
         break;
-      case 2: // bottom
+      case 2:
         x = getRandomNumber(0, 100);
         y = 110;
         break;
-      case 3: // left
+      case 3:
         x = -10;
         y = getRandomNumber(0, 100);
         break;
+      default:
+        x = 50;
+        y = 50;
     }
     return { x: `${x}`, y: `${y}` };
   };
@@ -108,14 +98,14 @@ const App = () => {
         <div className="absolute inset-0">
           <Gravity
             ref={gravityRef}
-            gravity={{ x: 0, y: 1.5 }}
+            gravity={{ x: 0, y: 1}}
             resetOnResize={true}
             addTopWall={true}
             autoStart={true}
           >
             {isTimerMounted && (
-              <MatterBody 
-                x="50" 
+              <MatterBody
+                x="50"
                 y="50"
                 matterBodyOptions={{
                   friction: 0.1,
@@ -133,9 +123,9 @@ const App = () => {
             {elements.map((element, index) => {
               const position = getRandomPosition();
               return (
-                <MatterBody 
-                  key={index} 
-                  x={position.x} 
+                <MatterBody
+                  key={index}
+                  x={position.x}
                   y={position.y}
                   matterBodyOptions={{
                     friction: 0.1,
@@ -156,7 +146,7 @@ const App = () => {
       </div>
       <div>
         <div style={{ height: "100vh" }} />
-        <div style={{ zIndex: 2 }}>{/* ... rest of your content ... */}</div>
+        <div style={{ zIndex: 2 }}>{/* Additional content here */}</div>
       </div>
       <FloatingLabel />
     </div>

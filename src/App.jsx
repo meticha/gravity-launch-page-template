@@ -98,7 +98,7 @@ const App = () => {
         <div className="absolute inset-0">
           <Gravity
             ref={gravityRef}
-            gravity={{ x: 0, y: 1}}
+            gravity={{ x: 0, y: 0.5}}
             resetOnResize={true}
             addTopWall={true}
             autoStart={true}

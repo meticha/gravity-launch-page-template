@@ -128,7 +128,7 @@ const Gravity = forwardRef(
     {
       children,
       debug = false,
-      gravity = { x: 0, y: 1 },
+      gravity = { x: 0, y: 0.5 },
       grabCursor = true,
       resetOnResize = true,
       addTopWall = true,

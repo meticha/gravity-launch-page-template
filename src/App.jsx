@@ -146,7 +146,7 @@ const App = () => {
       </div>
       <div>
         <div style={{ height: "100vh" }} />
-        <div style={{ zIndex: 2 }}>{/* Additional content here */}</div>
+        <div style={{ zIndex: 2 }}>{/* Additional content here which is not available for now */}</div>
       </div>
       <FloatingLabel />
     </div>

@@ -30,7 +30,7 @@ const FloatingLabel = () => {
 
   return (
     <motion.a
-      href="https://meticha.com/?utm_source=snippet_launch_page"
+      href="https://meticha.com?utm_source=snippet_launch_page&utm_medium=website"
       target="_blank"
       rel="noopener noreferrer"
       className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-50 cursor-pointer group"

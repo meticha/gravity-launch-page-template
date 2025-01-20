@@ -11,7 +11,12 @@ const BackgroundText = () => {
         <br />
           Your Go-To Library for Ready To Use Snippets.
         <br />
-        Launching in
+        Launching on 27th January!
+      </p>
+
+      
+      <p className="text-xl sm:text-1xl md:text-2xl lg:text-2xl leading-tight font-bold text-white/70  0 max-w-xs sm:max-w-sm md:max-w-2xl lg:max-w-4xl px-4">
+      Notify Me
       </p>
     </div>
   );

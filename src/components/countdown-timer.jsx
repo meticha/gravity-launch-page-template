@@ -89,9 +89,9 @@ const CountdownTimer = () => {
         <div className="bg-gray-700 px-3 py-2 sm:px-4 sm:py-3 md:px-5 md:py-4 lg:px-6 lg:py-5">
          
           
-     <p className="text-xl sm:text-1xl md:text-2xl lg:text-2xl leading-tight font-bold text-white/70  0 max-w-xs sm:max-w-sm md:max-w-2xl lg:max-w-4xl px-4 py-8">
+    
       <a href="https://www.producthunt.com/products/jetpack-compose-snippets">Notify Me</a>
-     </p>
+    
         </div>
       </motion.div>
     </div>

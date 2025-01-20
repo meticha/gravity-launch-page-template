@@ -15,9 +15,9 @@ const BackgroundText = () => {
       </p>
 
       
-      <p className="text-xl sm:text-1xl md:text-2xl lg:text-2xl leading-tight font-bold text-white/70  0 max-w-xs sm:max-w-sm md:max-w-2xl lg:max-w-4xl px-4 py-8">
+     
       <a href="https://www.producthunt.com/products/jetpack-compose-snippets">Notify Me</a>
-      </p>
+     
     </div>
   );
 };

@@ -90,7 +90,10 @@ const CountdownTimer = () => {
          
           
     
-      <a href="https://www.producthunt.com/products/jetpack-compose-snippets">Notify Me</a>
+       <p className="text-center text-gray-300 text-xs sm:text-sm md:text-base">
+            Launching on{" "}
+            <span className="font-semibold text-white">January 27, 2025</span>
+          </p>
     
         </div>
       </motion.div>

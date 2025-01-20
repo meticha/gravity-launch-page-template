@@ -14,24 +14,11 @@ const BackgroundText = () => {
         Launching on 27th January!
       </p>
 
-      <a
-        href="https://example.com/"
-        style={{
-          position: "relative",
-          zIndex: 3, // Higher z-index than any obstructing element
-          color: "white",
-          textDecoration: "none",
-          fontSize: "24px",
-          padding: "10px 20px",
-          backgroundColor: "red",
-        }}
-      >
-        Click Here to Visit Example.com
-      </a>
       
-     <div onClick={() => window.location.href = 'https://www.producthunt.com/products/jetpack-compose-snippets'}><p className="text-xl sm:text-1xl md:text-2xl lg:text-2xl leading-tight font-bold text-white/70  0 max-w-xs sm:max-w-sm md:max-w-2xl lg:max-w-4xl px-4 py-8">
-      Notify Me
-     </p></div>
+     
+     <p className="text-xl sm:text-1xl md:text-2xl lg:text-2xl leading-tight font-bold text-white/70  0 max-w-xs sm:max-w-sm md:max-w-2xl lg:max-w-4xl px-4 py-8">
+      <a href="https://www.producthunt.com/products/jetpack-compose-snippets">Notify Me</a>
+     </p>
     </div>
   );
 };

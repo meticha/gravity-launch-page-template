@@ -92,7 +92,7 @@ const CountdownTimer = () => {
     
        <p className="text-center text-gray-300 text-xs sm:text-sm md:text-base">
             Launching on{" "}
-            <span className="font-semibold text-white">January 27, 2025</span>
+            <span className="font-semibold text-white">January 28, 2025</span>
           </p>
     
         </div>

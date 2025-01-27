@@ -10,7 +10,7 @@ const CountdownTimer = () => {
   });
 
   useEffect(() => {
-    const targetDate = new Date(2025, 0, 28); // January 27, 2025
+    const targetDate = new Date(2025, 0, 29); // January 29, 2025
 
     const updateTimer = () => {
       const now = new Date();
@@ -92,7 +92,7 @@ const CountdownTimer = () => {
     
        <p className="text-center text-gray-300 text-xs sm:text-sm md:text-base">
             Launching on{" "}
-            <span className="font-semibold text-white">January 28, 2025</span>
+            <span className="font-semibold text-white">January 29, 2025</span>
           </p>
     
         </div>

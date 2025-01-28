@@ -11,7 +11,7 @@ const BackgroundText = () => {
         <br />
           Your Go-To Library for Ready To Use Snippets.
         <br />
-        Launching on 29th January!
+        Launching on 3rd February!
       </p>
     </div>
   );

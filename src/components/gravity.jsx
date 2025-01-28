@@ -25,6 +25,7 @@ import Matter, {
 import decomp from "poly-decomp";
 
 const GravityContext = createContext(null);
+var num = 0;
 
 const MatterBody = ({
   children,
@@ -50,6 +51,7 @@ const MatterBody = ({
   const idRef = useRef(Math.random().toString(36).substring(7));
   const context = useContext(GravityContext);
   const [isReady, setIsReady] = useState(false);
+  const [isDragging, setIsDragging] = useState(false); // Track dragging state
 
   useEffect(() => {
     if (!elementRef.current) return;
@@ -107,6 +109,26 @@ const MatterBody = ({
     (child) => React.isValidElement(child) && child.type === "a"
   );
 
+  // Event handlers to track dragging state
+  const handleMouseDown = () => {
+    if (isDraggable) {
+      setIsDragging(true);
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+    console.log(`Hello ${num}`);
+  };
+
+  const handleMouseMove = (event) => {
+    if (isDragging) {
+      console.log("Fte");
+    }
+  };
+
+  num++;
+
   return (
     <div
       ref={elementRef}
@@ -117,8 +139,14 @@ const MatterBody = ({
         isDraggable && !isLinkContainer && "pointer-events-none"
       )}
       style={{ touchAction: "none" }}
+      onMouseDown={handleMouseDown} // Trigger when mouse is pressed
+      onMouseUp={handleMouseUp} // Trigger when mouse is released
+      onMouseMove={handleMouseMove} // Trigger during dragging (optional)
     >
       {children}
+
+      {/* Optionally, display dragging state */}
+      {/* {isDragging && <div className="dragging-indicator">Dragging...</div>} */}
     </div>
   );
 };

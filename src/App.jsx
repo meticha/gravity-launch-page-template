@@ -4,12 +4,14 @@ import CountdownTimer from "./components/countdown-timer";
 import { generateUniqueElements, getRandomNumber } from "./utils";
 import BackgroundText from "./components/background-text";
 import FloatingLabel from "./components/FloatingLable";
+import ReactConfetti from "react-confetti";
 
 const App = () => {
   const elements = generateUniqueElements();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isReady, setIsReady] = useState(false);
   const [isTimerMounted, setIsTimerMounted] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(false);
   const scrollContainerRef = useRef(null);
   const gravityRef = useRef(null);
 
@@ -42,8 +44,8 @@ const App = () => {
 
     console.log(`
     ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⠛⠛⠙⠉⠉⠉⠙⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿   
-    ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-    ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+    ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+    ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
     ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⣠⣶⣾⣿⣿⣧⣿⣿⣿⣶⣤⡀⠀⠀⠉⣽⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
     ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣟⡇⠀⠀⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
     ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣇⠀⡘⠙⢁⣉⡻⣿⣿⢏⣉⣉⣭⣀⡙⣆⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
@@ -53,16 +55,16 @@ const App = () => {
     ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣇⠌⣿⣿⢏⠳⢂⡀⢡⠋⠏⠈⣿⡟⡙⣄⣠⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
     ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⡹⣿⣆⣤⣆⣤⣥⣢⣴⣶⠿⡽⢳⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
     ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠗⠙⣿⣿⣿⣾⣿⣿⣷⣿⡿⣍⠘⠿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-    ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⠁⠀⠀⠀⣶⢭⣋⠛⢙⡋⣀⣬⠞⣼⡄⠀⠀⠀⠉⠛⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-    ⣿⣿⣿⣿⣿⣿⣿⣿⣿⠏⠀⠀⠀⠀⠀⠀⢹⣷⣾⣿⣿⣿⣿⣶⣿⣿⣧⠀⠀⠀⠀⠀⠀⠘⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-    ⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⠀⠀⠀⠀⠐⢀⡜⢿⣿⣿⣿⣿⣿⣿⣿⡿⣣⠃⡞⠀⠀⠀⠀⠀⠈⠉⠛⠻⠿⣿⣿⣿⣿⣿⣿
-    ⣿⣿⣿⣿⣿⠟⠋⠉⠀⠀⠀⠀⠀⠀⠀⠘⢿⢷⣽⣻⠿⢿⠿⣻⣵⢾⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⣿⣿⣿⣿
-    ⣿⣿⣿⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⢿⣿⣷⣿⣿⡿⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣿⣿⣿
-    ⣿⡏⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⠟⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⣿⣿
-    ⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢿⣿
-    ⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⣿
-    ⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢿
-    ⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠰⢤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸
+    ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠟⠁⠀⠀⠀⣶⢭⣋⠛⢙⡋⣀⣬⠞⣼⡄⠀⠀⠀⠉⠛⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+    ⣿⣿⣿⣿⣿⣿⣿⣿⣿⠏⠀⠀⠀⠀⠀⠀⢹⣷⣾⣿⣿⣿⣿⣶⣿⣿⣧⠀⠀⠀⠀⠀⠀⠘⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+    ⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⠀⠀⠀⠀⠐⢀⡜⢿⣿⣿⣿⣿⣿⣿⣿⡿⣣⠃⡞⠀⠀⠀⠀⠀⠈⠉⠛⠻⠿⣿⣿⣿⣿⣿⣿⣿⣿
+    ⣿⣿⣿⣿⣿⠟⠋⠉⠀⠀⠀⠀⠀⠀⠀⠘⢿⢷⣽⣻⠿⢿⠿⣻⣵⢾⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⣿⣿⣿⣿⣿⣿⣿
+    ⣿⣿⣿⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⢿⣿⣷⣿⣿⡿⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ ⠘⣿⣿⣿⣿⣿⣿
+    ⣿⡏⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⠟⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀  ⢹⣿⣿⣿⣿⣿⣿
+    ⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀   ⢿⣿⣿⣿⣿⣿
+    ⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀   ⠸⣿⣿⣿⣿⣿
+    ⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀   ⠀⢿⣿⣿⣿⣿
+    ⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀  ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀     ⠀⠀⠀⠀⠀⠀⠀⠀⠀  ⢸⣿⣿⣿
 
     Developed By: Darshit Dudhaiya & Sanjay Tomar  
     
@@ -118,7 +120,14 @@ const App = () => {
     );
   }
 
-  
+  const handleExclamationClick = () => {
+    setShowConfetti(true);
+  };
+
+  const stopConfetti = () => {
+    setShowConfetti(false);
+  }
+
   return (
     <div
       ref={scrollContainerRef}
@@ -131,11 +140,11 @@ const App = () => {
         className="fixed inset-0 bg-gradient-to-t from-green-300 to-green-500"
         style={{ zIndex: isScrolled ? 0 : 1 }}
       >
-        <BackgroundText />
+        <BackgroundText onExclamationClick={handleExclamationClick} stopConfetti={stopConfetti} />
         <div className="absolute inset-0">
           <Gravity
             ref={gravityRef}
-            gravity={{ x: 0, y: 0.5}}
+            gravity={{ x: 0, y: 0.5 }}
             resetOnResize={true}
             addTopWall={true}
             autoStart={true}
@@ -178,12 +187,35 @@ const App = () => {
                 </MatterBody>
               );
             })}
+            {showConfetti && (
+              <MatterBody
+                x="50"
+                y="50"
+                matterBodyOptions={{
+                  isStatic: true,
+                }}
+              >
+                <ReactConfetti
+                  width={window.innerWidth}
+                  height={window.innerHeight}
+                  gravity={0.1}
+                  initialVelocityX={2}
+                  initialVelocityY={2}
+                  numberOfPieces={200}
+                  opacity={1}
+                  recycle
+                  run
+                />
+              </MatterBody>
+            )}
           </Gravity>
         </div>
       </div>
       <div>
         <div style={{ height: "100vh" }} />
-        <div style={{ zIndex: 2 }}>{/* Additional content here which is not available for now */}</div>
+        <div style={{ zIndex: 2 }}>
+          {/* Additional content here which is not available for now */}
+        </div>
       </div>
       <FloatingLabel />
     </div>

@@ -102,7 +102,7 @@ const AnimatedText = ({ isVisible, onHide }) => {
           Congratulations! You found an Easter Egg!
         </p>
         <p className="text-white text-xl md:text-2xl mt-4 animate-pulse px-4">
-          Press F12 or Ctrl+Shift+I to see the surprise in the console!
+          Press F12 or Ctrl+Shift+I to see the surprise in the <b>console!</b>
         </p>
       </div>
     </div>

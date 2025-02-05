@@ -37,7 +37,7 @@ const BackgroundText = ({ onExclamationClick,stopConfetti }) => {
           <br />
           Your Go-To Library for Ready To Use Snippets.
           <br />
-          Launching on 3rd February!
+          Finally Launching on 10th February!
         </p>
       </div>
       {/* Animated Text */}

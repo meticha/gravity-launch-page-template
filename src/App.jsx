@@ -149,7 +149,7 @@ const App = () => {
             addTopWall={true}
             autoStart={true}
           >
-            {isTimerMounted && (
+            {/* {isTimerMounted && (
               <MatterBody
                 x="50"
                 y="50"
@@ -162,10 +162,11 @@ const App = () => {
                   frictionStatic: 0.5,
                   frictionAir: 0.001,
                 }}
+                className={"absolute"}
               >
                 <CountdownTimer />
               </MatterBody>
-            )}
+            )} */}
             {elements.map((element, index) => {
               const position = getRandomPosition();
               return (

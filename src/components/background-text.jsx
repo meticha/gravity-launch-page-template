@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import AnimatedText from "./AnimatedText";
 
-const BackgroundText = ({ onExclamationClick,stopConfetti }) => {
+const BackgroundText = ({ onExclamationClick, stopConfetti }) => {
   const [showAnimatedText, setShowAnimatedText] = useState(false);
 
   const handleExclamationClick = () => {
@@ -31,13 +31,15 @@ const BackgroundText = ({ onExclamationClick,stopConfetti }) => {
       </h1>
 
       {/* Other content */}
-      <div className="relative mt-48 sm:mt-56 md:mt-64 lg:mt-72">
-        <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl leading-tight font-bold text-white/70 max-w-xs sm:max-w-sm md:max-w-2xl lg:max-w-4xl px-4">
-          Jetpack Compose Snippets
+      <div className="relative mt-48 sm:mt-56 md:mt-64 lg:mt-72 w-full ">
+        <p className="absolute z-10 w-full text-xl sm:text-2xl md:text-3xl lg:text-4xl leading-tight font-bold text-white/70 px-4">
+          Jetpack Compose Snippets is{" "}
+          <a href="https://jetpackcomposesnippets.meticha.com?utm_source=snippet_launch_page&utm_medium=website" target="_blank" rel="noopener noreferrer" className="text-blue-400 underline" >LIVE NOW!</a> 🚀
           <br />
-          Your Go-To Library for Ready To Use Snippets.
-          <br />
-          Finally Launching on 10th February!
+          Click the <span className="text-blue-400">
+            bottom left corner
+          </span>{" "}
+          button to explore it now!
         </p>
       </div>
       {/* Animated Text */}

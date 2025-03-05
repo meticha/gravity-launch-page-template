@@ -4,7 +4,7 @@ Snippet Launch Page is an interactive and visually appealing landing page built 
 
 ## 🎥 Demo
 
-![Snippet Launch Page Demo](demo.mp4)  
+![Snippet Launch Page Demo](demo.gif)  
 [🔗 Live Demo](https://iscomposesnippetslaunchedyet.meticha.com)
 
 ## 🛠 Features

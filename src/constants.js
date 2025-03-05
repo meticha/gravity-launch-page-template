@@ -1,4 +1,3 @@
-import Artifact from "./assets/artifact";
 
 export const elementsConfig = [
   {
@@ -216,16 +215,6 @@ export const elementsConfig = [
       // transform: "hover:scale-110 transition-transform duration-300",
     },
   },
-  // {
-  //   type: "image",
-  //   src: "/assets/Group 25.svg",
-  //   width: "w-16 md:w-24",
-  //   // height: "h-24 md:h-48",
-  //   imageStyle: {
-  //     filter: "drop-shadow(0 2px 2px rgba(0, 0, 0, 0.1))",
-  //     // transform: "hover:rotate-6 transition-transform duration-300",
-  //   },
-  // },
   {
     type: "image",
     src: "/assets/Group 26 (2).png",

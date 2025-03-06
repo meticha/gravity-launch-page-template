@@ -1,4 +1,4 @@
-# 🚀 Gravity Launch Page Template
+# 🚀 Gravity Launch Page Template 
 
 Gravity Launch Page Template is an interactive and visually appealing landing page built with **React + Vite**, featuring gravity and physics-based animations using **Matter.js** and **Framer Motion**. Designed to create a dynamic first impression, this project is great for product launches, portfolio showcases, or fun experiments with physics simulations!
 

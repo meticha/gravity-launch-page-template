@@ -1,10 +1,10 @@
-# 🚀 Snippet Launch Page
+# 🚀 Gravity Launch Page Template
 
-Snippet Launch Page is an interactive and visually appealing landing page built with **React + Vite**, featuring gravity and physics-based animations using **Matter.js** and **Framer Motion**. Designed to create a dynamic first impression, this project is great for product launches, portfolio showcases, or fun experiments with physics simulations!
+Gravity Launch Page Template is an interactive and visually appealing landing page built with **React + Vite**, featuring gravity and physics-based animations using **Matter.js** and **Framer Motion**. Designed to create a dynamic first impression, this project is great for product launches, portfolio showcases, or fun experiments with physics simulations!
 
 ## 🎥 Demo
 
-![Snippet Launch Page Demo](demo.gif)  
+![Gravity Launch Page Demo](demo.gif)  
 [🔗 Live Demo](https://iscomposesnippetslaunchedyet.meticha.com)
 
 ## 🛠 Features
@@ -22,7 +22,7 @@ Clone the repository and install dependencies:
 
 ```sh
 git clone https://github.com/meticha/snippet-launch-page.git
-cd snippet-launch-page
+cd gravity-launch-page-template
 npm install
 ```
 
